@@ -40,8 +40,13 @@
 			section{
 				float: none;
 			}
+			table{
+				width: 60%;
+				margin: auto;
+			}
 			table tr th,td {
 				border: 1px solid black;
+				text-align: center;
 			}
 		</style>
 	</head>

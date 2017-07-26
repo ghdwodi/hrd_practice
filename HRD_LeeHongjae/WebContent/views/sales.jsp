@@ -44,6 +44,14 @@
 			section{
 				float: none;
 			}
+			table tr th,td {
+				border: 1px solid black;
+				text-align: center;
+			}
+			table{
+				width: 50%;
+				margin: auto;
+			}
 		</style>
 	</head>
 	<body>
