@@ -1,5 +1,24 @@
+<%@page import="DBPKG.DAO"%>
+<%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	Calendar cal = Calendar.getInstance();
+	String year = String.valueOf(cal.get(Calendar.YEAR));
+	String month = String.valueOf(cal.get(Calendar.MONTH)+1);
+	String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+	if(month.length()<2){
+		month = "0"+month;
+	}
+	if(day.length()<2){
+		day = "0"+day;
+	}
+	String date = year+month+day;
+	DAO dao = new DAO();
+	int newCustno = dao.getNextCustno();
+	pageContext.setAttribute("custno", newCustno);
+	pageContext.setAttribute("joindate", date);
+%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -72,8 +91,7 @@
 					alert("도시코드는 2자리 숫자입니다!");
 					return;
 				}
-				alert("회원등록이 완료되었습니다!")
-				f.action="../Controller2";
+				f.action="../models/insert_do.jsp";
 				f.submit();
 			}
 		</script>
@@ -84,10 +102,10 @@
 			<h2>쇼핑몰 회원관리 ver 1.0</h2>
 		</header>
 		<menu class="menu_bar">
-			<li><a href="../Controller?cmd=insert">회원등록</a></li>
-			<li><a href="../Controller?cmd=list">회원목록조회/수정</a></li>
-			<li><a href="../Controller?cmd=sales">회원매출조회</a></li>
-			<li><a href="../Controller?cmd=index">홈으로</a></li>
+			<li><a href="insert.jsp">회원등록</a></li>
+			<li><a href="list.jsp">회원목록조회/수정</a></li>
+			<li><a href="sales.jsp">회원매출조회</a></li>
+			<li><a href="index.jsp">홈으로</a></li>
 		</menu>
 		<section>
 			<h3 style="text-align: center">홈쇼핑 회원 등록</h3>
@@ -123,9 +141,8 @@
 					</tr>
 					<tr>
 						<td colspan="2">
-							<input type="hidden" value="insert" name="cmd">
 							<input type="button" value="등록" onclick="insert(this.form)">
-							<input type="button" value="조회" onclick="javascript:location.href='../Controller?cmd=list'">
+							<input type="button" value="조회" onclick="javascript:location.href='list.jsp'">
 						</td>
 					</tr>
 				</table>

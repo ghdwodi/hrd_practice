@@ -1,5 +1,13 @@
+<%@page import="DBPKG.DAO"%>
+<%@page import="DBPKG.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	DAO dao = new DAO();
+	int custno = Integer.parseInt(request.getParameter("custno"));
+	MemberVO mvo = dao.getOneMember(custno);
+	pageContext.setAttribute("mvo", mvo);
+%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -39,7 +47,7 @@
 			}
 		</style>
 		<script type="text/javascript">
-			function insert(f) {
+			function modify(f) {
 				if(f.custname.value==""){
 					alert("회원성명이 입력되지 않았습니다!");
 					return;
@@ -72,8 +80,7 @@
 					alert("도시코드는 2자리 숫자입니다!");
 					return;
 				}
-				alert("회원등록이 완료되었습니다!")
-				f.action="../Controller2";
+				f.action="../models/modify_do.jsp";
 				f.submit();
 			}
 		</script>
@@ -84,10 +91,10 @@
 			<h2>쇼핑몰 회원관리 ver 1.0</h2>
 		</header>
 		<menu class="menu_bar">
-			<li><a href="../Controller?cmd=insert">회원등록</a></li>
-			<li><a href="../Controller?cmd=list">회원목록조회/수정</a></li>
-			<li><a href="../Controller?cmd=sales">회원매출조회</a></li>
-			<li><a href="../Controller?cmd=index">홈으로</a></li>
+			<li><a href="insert.jsp">회원등록</a></li>
+			<li><a href="list.jsp">회원목록조회/수정</a></li>
+			<li><a href="sales.jsp">회원매출조회</a></li>
+			<li><a href="index.jsp">홈으로</a></li>
 		</menu>
 		<section>
 			<h3 style="text-align: center">홈쇼핑 회원 등록</h3>
@@ -95,36 +102,36 @@
 				<table>
 					<tr>
 						<th>회원번호(자동발생)</th>
-						<td><input value="${custno}" disabled="disabled"></td>
+						<td><input value="${mvo.custno}" disabled="disabled"></td>
 					</tr>
 					<tr>
 						<th>회원성명</th>
-						<td><input name="custname"></td>
+						<td><input value="${mvo.custname}" name="custname"></td>
 					</tr>
 					<tr>
 						<th>회원전화</th>
-						<td><input name="phone"></td>
+						<td><input value="${mvo.phone}" name="phone"></td>
 					</tr>
 					<tr>
 						<th>회원주소</th>
-						<td><input name="address"></td>
+						<td><input value="${mvo.address}" name="address"></td>
 					</tr>
 					<tr>
 						<th>가입일자</th>
-						<td><input value="${joindate}" disabled="disabled"></td>
+						<td><input value="${mvo.joindate}" disabled="disabled"></td>
 					</tr>
 					<tr>
 						<th>고객등급[A:VIP,B:일반,C:직원]</th>
-						<td><input name="grade"></td>
+						<td><input value="${mvo.grade}" name="grade"></td>
 					</tr>
 					<tr>
 						<th>거주도시</th>
-						<td><input name="city"></td>
+						<td><input value="${mvo.city}" name="city"></td>
 					</tr>
 					<tr>
 						<td colspan="2">
-							<input type="hidden" value="insert" name="cmd">
-							<input type="button" value="등록" onclick="insert(this.form)">
+							<input type="hidden" value="${mvo.custno}" name="custno">
+							<input type="button" value="수정" onclick="modify(this.form)">
 							<input type="button" value="조회" onclick="javascript:location.href='../Controller?cmd=list'">
 						</td>
 					</tr>
